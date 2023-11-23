@@ -1,1 +1,1 @@
-export { StringEncode } from './StringEncode/StringEncode';
+export { StringDecode } from './StringDecode/StringDecode';

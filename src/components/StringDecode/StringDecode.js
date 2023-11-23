@@ -1,8 +1,8 @@
 import { useGlobal } from '../../context';
 
-import styles from './StringEncode.module.css';
+import styles from './StringDecode.module.css';
 
-export const StringEncode = () => {
+export const StringDecode = () => {
   const { state } = useGlobal();
 
   console.log(state);
