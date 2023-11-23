@@ -1,11 +1,11 @@
-import { StringEncode } from './components';
+import { StringDecode } from './components';
 
 import styles from './App.module.css';
 
 function App() {
   return (
     <div className={styles.appRoot}>
-      <StringEncode />
+      <StringDecode />
     </div>
   );
 }
