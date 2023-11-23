@@ -1,0 +1,40 @@
+.loader {
+  display: flex;
+  border: 3px solid rgba(255, 255, 255, .3);
+  border-radius: 50%;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.sm {
+  width: 32px;
+  height: 32px;
+}
+
+.md {
+  width: 64px;
+  height: 64px;
+}
+
+.lg {
+  width: 128px;
+  height: 128px;
+}
+
+.xl {
+  width: 256px;
+  height: 256px;
+}
+
+.light {
+  border-top-color: #e4f222;
+}
+
+.dark {
+  border-top-color: #646356;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

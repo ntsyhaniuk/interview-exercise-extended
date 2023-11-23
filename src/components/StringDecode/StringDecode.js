@@ -4,14 +4,19 @@ import debounce from 'lodash/debounce';
 
 import { useGlobal } from '../../context';
 
+import { executeInSequence } from '../../helpers';
+
+import { Loader } from '../Loader';
+
 import styles from './StringDecode.module.css';
 
+const description = 'You can paste an encoded link to decode it and automatically solve an exercise that is needed to join us...';
+
 export const StringDecode = () => {
-  const { state, setGlobal } = useGlobal();
+  const { setGlobal } = useGlobal();
 
   const [encodedString, setEncodedString] = useState('');
-
-  const { decodedString } = state;
+  const [isFakeLoading, setIsFakeLoading] = useState(false);
 
   const handleChange = debounce(({ target }) => {
     const { value } = target;
@@ -22,18 +27,31 @@ export const StringDecode = () => {
   const handleDecode = () => {
     const decodedString = atob(encodedString);
 
-    setGlobal({ decodedString });
+    executeInSequence([
+      () => setIsFakeLoading(true),
+      () => setGlobal({ decodedString }),
+      () => setIsFakeLoading(false),
+      () => {
+        const { pathname } = window.location;
+
+        if (pathname === '/') {
+          window.location.href = decodedString;
+        }
+      }
+    ], 500);
   };
 
   return (
     <div className={styles.root}>
-      <h1>Enter encoded string:</h1>
-      <input type="text" onChange={handleChange} />
-      <button onClick={handleDecode}>Process it!</button>
-      <p>encoded::__{encodedString}</p>
-      <div>
-        <p>decoded::</p>
-        <a href={decodedString} target="_blank">{decodedString}</a>
+      <div className={styles.container}>
+        <h1 className={styles.title}>Pass interviews smarter</h1>
+        <p className={styles.description}>{description}</p>
+        <div className={styles.inputBox}>
+          <input type="text" placeholder="here:" onChange={handleChange} />
+          <button onClick={handleDecode}>
+            {isFakeLoading ? <Loader /> : 'Process'}
+          </button>
+        </div>
       </div>
     </div>
   );
