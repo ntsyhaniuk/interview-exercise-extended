@@ -1,0 +1,1 @@
+export { useSmoothNavigate } from './useSmoothNavigate';

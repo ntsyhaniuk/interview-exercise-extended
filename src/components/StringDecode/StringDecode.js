@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import debounce from 'lodash/debounce';
 
 import { useGlobal } from '../../context';
+
+import { useSmoothNavigate } from '../../hooks';
 
 import { executeInSequence } from '../../helpers';
 
@@ -14,6 +17,7 @@ const description = 'You can paste an encoded link to decode it and automaticall
 
 export const StringDecode = () => {
   const { setGlobal } = useGlobal();
+  const smoothNavigate = useSmoothNavigate(useNavigate());
 
   const [encodedString, setEncodedString] = useState('');
   const [isFakeLoading, setIsFakeLoading] = useState(false);
@@ -31,13 +35,7 @@ export const StringDecode = () => {
       () => setIsFakeLoading(true),
       () => setGlobal({ decodedString }),
       () => setIsFakeLoading(false),
-      () => {
-        const { pathname } = window.location;
-
-        if (pathname === '/') {
-          window.location.href = decodedString;
-        }
-      }
+      () => smoothNavigate('/parse'),
     ], 500);
   };
 
