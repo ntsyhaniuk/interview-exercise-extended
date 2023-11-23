@@ -18,6 +18,7 @@ function App() {
               <Routes>
                 <Route path='/' element={<StringDecode />} />
                 <Route path='/parse' element={<ParseTemplate />} />
+                <Route path='*' element={<StringDecode />} />
               </Routes>
             </Router>
           </Suspense>
