@@ -37,6 +37,6 @@
 }
 
 .inputBox button:hover {
-  background-color: #f6ff76;
+  background-color: var(--accent-light-color);
   cursor: pointer;
 }
