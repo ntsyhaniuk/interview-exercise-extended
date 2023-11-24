@@ -29,11 +29,11 @@ export const StringDecode = () => {
   }, 500);
 
   const handleDecode = () => {
-    const decodedString = atob(encodedString);
+    const decodedUrl = atob(encodedString);
 
     executeInSequence([
       () => setIsFakeLoading(true),
-      () => setGlobal({ decodedString }),
+      () => setGlobal({ decodedUrl }),
       () => setIsFakeLoading(false),
       () => smoothNavigate('/parse'),
     ], 500);

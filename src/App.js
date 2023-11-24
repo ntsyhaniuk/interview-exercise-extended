@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { GlobalProvider } from './context';
 
 
-import { StringDecode, ParseTemplate, Loader, ErrorBoundary } from './components';
+import { StringDecode, CaptureFlag, Loader, ErrorBoundary } from './components';
 
 import styles from './App.module.css';
 
@@ -17,7 +17,7 @@ function App() {
             <Router>
               <Routes>
                 <Route path='/' element={<StringDecode />} />
-                <Route path='/parse' element={<ParseTemplate />} />
+                <Route path='/parse' element={<CaptureFlag />} />
                 <Route path='*' element={<StringDecode />} />
               </Routes>
             </Router>
