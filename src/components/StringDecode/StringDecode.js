@@ -9,11 +9,13 @@ import { useSmoothNavigate } from '../../hooks';
 
 import { executeInSequence } from '../../helpers';
 
-import { Loader } from '../Loader';
+import { Loader, PageContainer, PageContent } from '../';
 
 import styles from './StringDecode.module.css';
 
 const description = 'You can paste an encoded link to decode it and automatically solve an exercise that is needed to join us...';
+
+const testString = 'aHR0cHM6Ly90bnM0bHBnbXppaXlwbnh4emVsNXNzNW55dTBuZnRvbC5sYW1iZGEtdXJsLnVzLWVhc3QtMS5vbi5hd3MvcmFtcC1jaGFsbGVuZ2UtaW5zdHJ1Y3Rpb25zLw==';
 
 export const StringDecode = () => {
   const { setGlobal } = useGlobal();
@@ -31,6 +33,8 @@ export const StringDecode = () => {
   const handleDecode = () => {
     const decodedUrl = atob(encodedString);
 
+    console.log(decodedUrl);
+
     executeInSequence([
       () => setIsFakeLoading(true),
       () => setGlobal({ decodedUrl }),
@@ -40,17 +44,17 @@ export const StringDecode = () => {
   };
 
   return (
-    <div className={styles.root}>
-      <div className={styles.container}>
-        <h1 className={styles.title}>Pass interviews smarter</h1>
-        <p className={styles.description}>{description}</p>
+    <PageContainer>
+      <PageContent>
+        <h1>Pass interviews smarter</h1>
+        <p>{description}</p>
         <div className={styles.inputBox}>
-          <input type="text" placeholder="here:" onChange={handleChange} />
+          <input type="text" placeholder="here:" value={testString} onChange={handleChange} />
           <button onClick={handleDecode}>
             {isFakeLoading ? <Loader /> : 'Process'}
           </button>
         </div>
-      </div>
-    </div>
+      </PageContent>
+    </PageContainer>
   );
 };

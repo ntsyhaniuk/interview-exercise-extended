@@ -1,12 +1,12 @@
-import styles from './GenericErrorWrapper.module.css';
+import { PageContainer, PageContent } from '../Layout';
 
 export const GenericErrorWrapper = () => {
   return (
-    <div className={styles.root}>
-      <div className={styles.container}>
+    <PageContainer>
+      <PageContent>
         <h1>Something went wrong.</h1>
         <p>Try refreshing the page.</p>
-      </div>
-    </div>
+      </PageContent>
+    </PageContainer>
   );
-};
+}
