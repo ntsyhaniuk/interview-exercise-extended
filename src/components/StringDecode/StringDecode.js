@@ -27,7 +27,7 @@ export const StringDecode = () => {
   const handleChange = debounce(({ target }) => {
     const { value } = target;
 
-    setEncodedString(testString);
+    setEncodedString(value);
   }, 500);
 
   const handleDecode = () => {
