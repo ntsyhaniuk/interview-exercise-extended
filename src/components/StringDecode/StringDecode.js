@@ -3,54 +3,74 @@ import { useNavigate } from 'react-router-dom';
 
 import debounce from 'lodash/debounce';
 
+import { ROUTES } from '../../constants';
 import { useGlobal } from '../../context';
-
 import { useSmoothNavigate } from '../../hooks';
-
-import { executeInSequence } from '../../helpers';
-
 import { Loader, PageContainer, PageContent } from '../';
+import { executeInSequence, isBase64, isValidUrl } from '../../helpers';
 
 import styles from './StringDecode.module.css';
 
-const description = 'You can paste an encoded link to decode it and automatically solve an exercise that is needed to join us...';
+const errors = {
+  invalidString: 'You must provide a valid Base64 string.',
+  invalidUrl: 'The decoded string is not a valid URL.',
+};
 
-const testString = 'aHR0cHM6Ly90bnM0bHBnbXppaXlwbnh4emVsNXNzNW55dTBuZnRvbC5sYW1iZGEtdXJsLnVzLWVhc3QtMS5vbi5hd3MvcmFtcC1jaGFsbGVuZ2UtaW5zdHJ1Y3Rpb25zLw==';
+const description = 'You can paste an encoded link to decode it and automatically solve an exercise that is needed to join us...';
 
 export const StringDecode = () => {
   const { setGlobal } = useGlobal();
   const smoothNavigate = useSmoothNavigate(useNavigate());
 
   const [encodedString, setEncodedString] = useState('');
+  const [encodingError, setEncodingError] = useState('');
   const [isFakeLoading, setIsFakeLoading] = useState(false);
 
   const handleChange = debounce(({ target }) => {
     const { value } = target;
 
-    setEncodedString(value);
+    if (!isBase64(value)) {
+      setEncodingError(errors.invalidString);
+      return;
+    } else {
+      setEncodingError('');
+      setEncodedString(value.trim());
+    }
   }, 500);
 
   const handleDecode = () => {
-    const decodedUrl = atob(encodedString);
 
-    console.log(decodedUrl);
+    try {
+      if (!isBase64(encodedString)) {
+        throw new Error(errors.invalidString);
+      }
 
-    executeInSequence([
-      () => setIsFakeLoading(true),
-      () => setGlobal({ decodedUrl }),
-      () => setIsFakeLoading(false),
-      () => smoothNavigate('/parse'),
-    ], 500);
+      const decodedUrl = atob(encodedString);
+
+      if (!isValidUrl(decodedUrl)) {
+        throw new Error(errors.invalidUrl);
+      }
+
+      executeInSequence([
+        () => setIsFakeLoading(true),
+        () => setGlobal({ decodedUrl }),
+        () => setIsFakeLoading(false),
+        () => smoothNavigate(ROUTES.parse),
+      ], 500);
+    } catch ({ message }) {
+      setEncodingError(message);
+    };
   };
 
   return (
     <PageContainer>
       <PageContent>
         <h1>Pass interviews smarter</h1>
-        <p>{description}</p>
+        {encodingError && <p>{encodingError}</p>}
+        {!encodingError && <p>{description}</p>}
         <div className={styles.inputBox}>
-          <input type="text" placeholder="here:" value={testString} onChange={handleChange} />
-          <button onClick={handleDecode}>
+          <input type="text" placeholder="here:" onChange={handleChange} />
+          <button disabled={!encodedString || !!encodingError} onClick={handleDecode}>
             {isFakeLoading ? <Loader /> : 'Process'}
           </button>
         </div>

@@ -1,20 +1,21 @@
 import { useEffect } from 'react';
-
 import { sanitize } from 'dompurify';
+import { useNavigate } from 'react-router-dom';
 
+import { ROUTES } from '../../constants';
 import { useGlobal } from '../../context';
-
 import { fetchTemplate } from '../../api';
-
-import { Loader, PageContainer, PageContent } from '../';
+import { useSmoothNavigate } from '../../hooks';
+import { Loader, PageContainer, TargetContainer } from '../';
 
 import styles from './CaptureFlag.module.css';
 
-const keywords = ['lambda', 'east', 'on', 'aws', 'challenge'];
-const challengeLinkRegex = /https?:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*(?:\.[a-zA-Z]{2,})(?:\/[^\s\)]*)?/g;
+const targetUrlKeywords = ['lambda', 'east', 'on', 'aws', 'challenge'];
+const challengeLinkRegex = /https?:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*(?:\.[a-zA-Z]{2,})(?:\/[^\s)]*)?/g;
 
 export const CaptureFlag = () => {
   const { state, setGlobal } = useGlobal();
+  const smoothNavigate = useSmoothNavigate(useNavigate());
 
   const {
     decodedUrl,
@@ -53,25 +54,35 @@ export const CaptureFlag = () => {
     el.innerHTML = sanitize(challengeTemplate);
     document.body.appendChild(el);
 
-    let selector = 'code[data-class] > div[data-tag] > span[data-id] > i.char'; // Default selector
+    let flagSelector = 'code[data-class] > div[data-tag] > span[data-id] > i.char'; // Default selector
 
     const generatedSelector = buildCssSelector();
 
     if (generatedSelector) {
-      selector = generatedSelector;
+      flagSelector = generatedSelector;
     }
 
-    const elements = el.querySelectorAll(selector);
+    const elements = el.querySelectorAll(flagSelector);
 
     const flagLink = Array.from(elements).map(({ attributes }) => attributes.value.value).join('');
 
     document.body.removeChild(el);
 
+    setGlobal({ flagSelector }); // store the selector for later use in the Publish component
+
     return flagLink;
   };
 
+  const setFlagLink = (flagLink) => {
+    setGlobal({ flagLink });
+
+    return flagLink;
+  }
+
   const setCapturedFlag = (capturedFlag) => {
     setGlobal({ capturedFlag });
+
+    return capturedFlag;
   };
 
   const extractChallengeLink = (instructionsTemplate) => {
@@ -79,7 +90,7 @@ export const CaptureFlag = () => {
 
     const allLinks = [...instructionsTemplate.matchAll(challengeLinkRegex)];
 
-    const link = allLinks.find(([url]) => keywords.every(kw => url.includes(kw)));
+    const link = allLinks.find(([url]) => targetUrlKeywords.every(kw => url.includes(kw)));
 
     return link;
   };
@@ -93,9 +104,14 @@ export const CaptureFlag = () => {
         .then(extractChallengeLink)
         .then(getTemplateString)
         .then(parseChallengeTemplate)
+        .then(setFlagLink)
         .then(getTemplateString)
         .then(setCapturedFlag);
     }
+  };
+
+  const handleDoMagic = () => {
+    smoothNavigate(ROUTES.publish);
   };
 
   useEffect(() => {
@@ -107,9 +123,12 @@ export const CaptureFlag = () => {
     <PageContainer>
       {!capturedFlag && <Loader size='md' />}
       {capturedFlag && (
-        <div className={styles.flagContainer}>
-          <span className={styles.flag}>{capturedFlag}</span>
-        </div>
+        <TargetContainer>
+          <span>{capturedFlag}</span>
+          <div className={styles.magicStickContainer}>
+            <p className={styles.magicStick} onClick={handleDoMagic} />
+          </div>
+        </TargetContainer>
       )}
     </PageContainer>
   );
