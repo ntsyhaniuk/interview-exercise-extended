@@ -105,12 +105,12 @@ export const CaptureFlag = () => {
 
   return (
     <PageContainer>
-      <PageContent>
-        <div className={styles.flagWrapper}>
-          <h1>Captured flag is:</h1>
-          {!capturedFlag ? <Loader size='md' /> : <h1>{capturedFlag}</h1>}
+      {!capturedFlag && <Loader size='md' />}
+      {capturedFlag && (
+        <div className={styles.flagContainer}>
+          <span className={styles.flag}>{capturedFlag}</span>
         </div>
-      </PageContent>
+      )}
     </PageContainer>
   );
 };
