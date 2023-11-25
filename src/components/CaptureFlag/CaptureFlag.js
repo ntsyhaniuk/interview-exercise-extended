@@ -6,7 +6,7 @@ import { useGlobal } from '../../context';
 
 import { fetchTemplate } from '../../api';
 
-import { Loader, PageContainer, PageContent } from '../';
+import { Loader, PageContainer } from '../';
 
 import styles from './CaptureFlag.module.css';
 
