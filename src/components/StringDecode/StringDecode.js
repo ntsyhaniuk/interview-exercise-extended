@@ -3,12 +3,10 @@ import { useNavigate } from 'react-router-dom';
 
 import debounce from 'lodash/debounce';
 
+import { ROUTES } from '../../constants';
 import { useGlobal } from '../../context';
-
 import { useSmoothNavigate } from '../../hooks';
-
 import { executeInSequence } from '../../helpers';
-
 import { Loader, PageContainer, PageContent } from '../';
 
 import styles from './StringDecode.module.css';
@@ -39,7 +37,7 @@ export const StringDecode = () => {
       () => setIsFakeLoading(true),
       () => setGlobal({ decodedUrl }),
       () => setIsFakeLoading(false),
-      () => smoothNavigate('/parse'),
+      () => smoothNavigate(ROUTES.parse),
     ], 500);
   };
 

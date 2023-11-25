@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-
 import { sanitize } from 'dompurify';
+import { useNavigate } from 'react-router-dom';
 
+import { ROUTES } from '../../constants';
 import { useGlobal } from '../../context';
-
 import { fetchTemplate } from '../../api';
-
 import { Loader, PageContainer } from '../';
+import { useSmoothNavigate } from '../../hooks';
 
 import styles from './CaptureFlag.module.css';
 
@@ -15,6 +15,7 @@ const challengeLinkRegex = /https?:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*(?:\.[a-
 
 export const CaptureFlag = () => {
   const { state, setGlobal } = useGlobal();
+  const smoothNavigate = useSmoothNavigate(useNavigate());
 
   const {
     decodedUrl,
@@ -107,6 +108,10 @@ export const CaptureFlag = () => {
     }
   };
 
+  const handleDoMagic = () => {
+    smoothNavigate(ROUTES.publish);
+  };
+
   useEffect(() => {
     decodedUrlHandler(decodedUrl);
   }, [decodedUrl]);
@@ -119,7 +124,7 @@ export const CaptureFlag = () => {
         <div className={styles.flagContainer}>
           <span className={styles.flag}>{capturedFlag}</span>
           <div className={styles.magicStickContainer}>
-            <p className={styles.magicStick} />
+            <p className={styles.magicStick} onClick={handleDoMagic} />
           </div>
         </div>
       )}
