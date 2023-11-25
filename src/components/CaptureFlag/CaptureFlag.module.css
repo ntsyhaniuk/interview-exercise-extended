@@ -1,10 +1,12 @@
 .flagContainer {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 16px;
   height: 100vh;
 
-  & span {
+  & .flag {
     opacity: 0;
     overflow: hidden;
     text-transform: uppercase;
@@ -17,6 +19,76 @@
     &:hover {
       cursor: pointer;
     }
+  }
+
+  & .magicStickContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 55%;
+
+    & .magicStick {
+      display: flex;
+      height: 10em;
+      width: 10em;
+      cursor: pointer;
+      transform: scale(.8);
+      transition: transform 150ms ease-in;
+
+      &::before {
+        content: '🪄';
+        margin: auto;
+        font-size: 4em;
+      }
+
+      &:hover {
+        transform: scale(1);
+
+        &:active {
+          transform: scale(.9);
+        }
+
+        &::after {
+          content: '';
+          margin: auto;
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          border-radius: 50%;
+          background-image: radial-gradient(circle closest-side at 50% 50%,
+              transparent 75%,
+              currentColor 87.5%,
+              transparent 100%);
+          background-size: 0 0;
+          background-position: 50% 50%;
+          background-repeat: no-repeat;
+
+          opacity: .5;
+          animation: pulse infinite 2s ease-out;
+        }
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  from {
+    opacity: 0;
+  }
+
+  25% {
+    background-size: 0 0;
+  }
+
+  75% {
+    opacity: .5;
+  }
+
+  to {
+    background-size: 125% 125%;
   }
 }
 

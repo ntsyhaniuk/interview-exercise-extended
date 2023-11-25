@@ -8,6 +8,8 @@ const defaultState = {
 export const useGlobalState = () => {
   const [state, setState] = useState(defaultState);
 
+  console.log('state', state);
+
   const setGlobal = (values) => {
     setState(prev => ({ ...prev, ...values }));
   };

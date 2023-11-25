@@ -10,7 +10,7 @@ import { Loader, PageContainer } from '../';
 
 import styles from './CaptureFlag.module.css';
 
-const keywords = ['lambda', 'east', 'on', 'aws', 'challenge'];
+const targetUrlKeywords = ['lambda', 'east', 'on', 'aws', 'challenge'];
 const challengeLinkRegex = /https?:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*(?:\.[a-zA-Z]{2,})(?:\/[^\s\)]*)?/g;
 
 export const CaptureFlag = () => {
@@ -70,8 +70,16 @@ export const CaptureFlag = () => {
     return flagLink;
   };
 
+  const setFlagLink = (flagLink) => {
+    setGlobal({ flagLink });
+
+    return flagLink;
+  }
+
   const setCapturedFlag = (capturedFlag) => {
     setGlobal({ capturedFlag });
+
+    return capturedFlag;
   };
 
   const extractChallengeLink = (instructionsTemplate) => {
@@ -79,7 +87,7 @@ export const CaptureFlag = () => {
 
     const allLinks = [...instructionsTemplate.matchAll(challengeLinkRegex)];
 
-    const link = allLinks.find(([url]) => keywords.every(kw => url.includes(kw)));
+    const link = allLinks.find(([url]) => targetUrlKeywords.every(kw => url.includes(kw)));
 
     return link;
   };
@@ -93,6 +101,7 @@ export const CaptureFlag = () => {
         .then(extractChallengeLink)
         .then(getTemplateString)
         .then(parseChallengeTemplate)
+        .then(setFlagLink)
         .then(getTemplateString)
         .then(setCapturedFlag);
     }
@@ -109,6 +118,9 @@ export const CaptureFlag = () => {
       {capturedFlag && (
         <div className={styles.flagContainer}>
           <span className={styles.flag}>{capturedFlag}</span>
+          <div className={styles.magicStickContainer}>
+            <p className={styles.magicStick} />
+          </div>
         </div>
       )}
     </PageContainer>
