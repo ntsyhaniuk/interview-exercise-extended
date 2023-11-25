@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import { ROUTES } from './constants';
 import { GlobalProvider } from './context';
-import { StringDecode, CaptureFlag, Loader, ErrorBoundary } from './components';
+import { StringDecode, CaptureFlag, Publish, Loader, ErrorBoundary } from './components';
 
 import styles from './App.module.css';
 
@@ -19,7 +19,7 @@ function App() {
               <Routes>
                 <Route path={home} element={<StringDecode />} />
                 <Route path={parse} element={<CaptureFlag />} />
-                <Route path={publish} element={<CaptureFlag />} />
+                <Route path={publish} element={<Publish />} />
                 <Route path='*' element={<StringDecode />} />
               </Routes>
             </Router>
