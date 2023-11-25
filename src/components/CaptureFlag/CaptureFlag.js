@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../constants';
 import { useGlobal } from '../../context';
 import { fetchTemplate } from '../../api';
-import { Loader, PageContainer } from '../';
 import { useSmoothNavigate } from '../../hooks';
+import { Loader, PageContainer, TargetContainer } from '../';
 
 import styles from './CaptureFlag.module.css';
 
 const targetUrlKeywords = ['lambda', 'east', 'on', 'aws', 'challenge'];
-const challengeLinkRegex = /https?:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*(?:\.[a-zA-Z]{2,})(?:\/[^\s\)]*)?/g;
+const challengeLinkRegex = /https?:\/\/[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*(?:\.[a-zA-Z]{2,})(?:\/[^\s)]*)?/g;
 
 export const CaptureFlag = () => {
   const { state, setGlobal } = useGlobal();
@@ -54,19 +54,21 @@ export const CaptureFlag = () => {
     el.innerHTML = sanitize(challengeTemplate);
     document.body.appendChild(el);
 
-    let selector = 'code[data-class] > div[data-tag] > span[data-id] > i.char'; // Default selector
+    let flagSelector = 'code[data-class] > div[data-tag] > span[data-id] > i.char'; // Default selector
 
     const generatedSelector = buildCssSelector();
 
     if (generatedSelector) {
-      selector = generatedSelector;
+      flagSelector = generatedSelector;
     }
 
-    const elements = el.querySelectorAll(selector);
+    const elements = el.querySelectorAll(flagSelector);
 
     const flagLink = Array.from(elements).map(({ attributes }) => attributes.value.value).join('');
 
     document.body.removeChild(el);
+
+    setGlobal({ flagSelector }); // store the selector for later use in the Publish component
 
     return flagLink;
   };
@@ -121,12 +123,12 @@ export const CaptureFlag = () => {
     <PageContainer>
       {!capturedFlag && <Loader size='md' />}
       {capturedFlag && (
-        <div className={styles.flagContainer}>
-          <span className={styles.flag}>{capturedFlag}</span>
+        <TargetContainer>
+          <span>{capturedFlag}</span>
           <div className={styles.magicStickContainer}>
             <p className={styles.magicStick} onClick={handleDoMagic} />
           </div>
-        </div>
+        </TargetContainer>
       )}
     </PageContainer>
   );
