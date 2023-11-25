@@ -1,6 +1,40 @@
-.flagWrapper {
+.flagContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  height: 100vh;
+
+  & span {
+    opacity: 0;
+    overflow: hidden;
+    text-transform: uppercase;
+    font-size: 128px;
+    line-height: 128px;
+    color: #fff;
+    animation: smoothAppear 1.5s ease-in forwards;
+  }
+}
+
+@keyframes smoothAppear {
+  0% {
+    opacity: 0.5;
+    width: 0px;
+    color: var(--background-color);
+  }
+
+  50% {
+    opacity: 1;
+    color: var(--accent-color);
+  }
+
+  75% {
+    opacity: 1;
+    color: var(--secondary-color);
+  }
+
+  100% {
+    opacity: 1;
+    width: 100%;
+    color: var(--heading-color);
+  }
 }

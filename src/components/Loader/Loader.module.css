@@ -1,5 +1,5 @@
 .loader {
-  display: flex;
+  display: inline-flex;
   border: 3px solid var(--input-background-color);
   border-radius: 50%;
   animation: spin 1s ease-in-out infinite;

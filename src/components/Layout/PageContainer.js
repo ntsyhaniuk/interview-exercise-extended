@@ -1,5 +1,5 @@
 import styles from './Layout.module.css';
 
-export const PageContainer = ({ children }) => (
-  <div className={styles.container}>{children}</div>
+export const PageContainer = ({ className, children }) => (
+  <div className={`${className} ${styles.container}`}>{children}</div>
 );
