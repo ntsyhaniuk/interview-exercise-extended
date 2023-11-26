@@ -1,7 +1,8 @@
 {
-  "name": "meow",
-  "version": "0.1.0",
+  "name": "interview-exercise-extended",
+  "version": "1.0.0",
   "private": true,
+  "homepage": "https://nazartsyhanyuk.github.io/interview-exercise-extended/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
