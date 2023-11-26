@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/interview-exercise-extended/static/css/main.960a487c.css",
+    "main.js": "/interview-exercise-extended/static/js/main.d9d948ac.js",
+    "index.html": "/interview-exercise-extended/index.html",
+    "main.960a487c.css.map": "/interview-exercise-extended/static/css/main.960a487c.css.map",
+    "main.d9d948ac.js.map": "/interview-exercise-extended/static/js/main.d9d948ac.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.960a487c.css",
+    "static/js/main.d9d948ac.js"
+  ]
+}
