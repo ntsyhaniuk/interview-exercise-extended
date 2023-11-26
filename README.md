@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# Front-End Challenge Solver
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## You can test it here: [https://nazartsyhanyuk.github.io/interview-exercise-extended/](https://nazartsyhanyuk.github.io/interview-exercise-extended/)
 
-## Available Scripts
+## Overview
 
-In the project directory, you can run:
+This React application was developed to simplify the passing of a technical exercise for a front-end position at some company. It automates the task of decoding a base64 string to reveal a link, parsing a complex DOM structure to retrieve specific elements, building a link, capturing a flag, and then displaying it character by character every second.
+I was too lazy to do it manually, so I wrote an application that does it automatically and looks nice.
 
-### `npm start`
+## How It Works
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Base64 Validation:** Automatically verifies if a given string is a base64 string.
+- **Base64 Decoding:** Decodes a given base64 string to reveal a hidden URL.
+- **URL Validation:** Checks if a given string is a valid URL.
+- **Instructions Parsing:** Navigate to the provided link to parse the instructions template, get a link to the challenge template, and build a selector.
+- **DOM Parsing:** Navigate to the provided link to parse a complex DOM structure, retrieving elements based on a generated selector.
+- **Value Retrieval and Assembly:** Joins the retrieved values to form a second link.
+- **Dynamic Fetch:** Fetches a specific flag (a two-word phrase) from the second link.
+- **Display a Flag:** Display a flag with fancy animation on the page.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Publishing:** Publishes the template of the app with the required functionality to the code sandbox.
+- **Display link to the sandbox:** Builds and displays on the page a clickable link to the generated sandbox with a ready-to-run application that meets the requirements of the task.
 
-### `npm test`
+## Installation and Usage
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To use this application:
 
-### `npm run build`
+1. Clone the repository to your local machine.
+2. Install the necessary dependencies using `npm install` or `yarn`.
+3. Start the application by running `npm start` or `yarn start`.
+4. Input the base64 encoded string when prompted.
+5. The application will automatically process the input and display the results.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Technologies Used
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- `React.js`
+- `codesandbox` tools and API
+- `dompurify` for sanitizing templates
+- `lodash/debounce` because I'm too lazy
