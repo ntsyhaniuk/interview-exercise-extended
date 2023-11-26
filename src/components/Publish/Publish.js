@@ -50,10 +50,8 @@ export const Publish = () => {
           <h1>{error.message}</h1>
         )}
         {sandboxId && (
-          <TargetContainer size='md'>
-            <a href={`https://codesandbox.io/s/${sandboxId}`} target="_blank" rel="noreferrer">
-              {`https://codesandbox.io/s/${sandboxId}`}
-            </a>
+          <TargetContainer>
+            <a href={`https://codesandbox.io/s/${sandboxId}`} target="_blank" rel="noreferrer">your sandbox</a>
           </TargetContainer>
         )}
       </PageContent>
