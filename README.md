@@ -1,10 +1,10 @@
 # Front-End Challenge Solver
 
-### You can test it here: [https://nazartsyhanyuk.github.io/interview-exercise-extended/](https://nazartsyhanyuk.github.io/interview-exercise-extended/)
+## You can test it here: [https://nazartsyhanyuk.github.io/interview-exercise-extended/](https://nazartsyhanyuk.github.io/interview-exercise-extended/)
 
 ## Overview
 
-This React application was developed to simplify passing of a technical exercise for a front-end position at some company. It automates a task of decoding a base64 string to reveal a link, parsing a complex DOM structure to retrieve specific elements, building a link, capturing a flag and then displaying it character by character, every second.
+This React application was developed to simplify the passing of a technical exercise for a front-end position at some company. It automates the task of decoding a base64 string to reveal a link, parsing a complex DOM structure to retrieve specific elements, building a link, capturing a flag, and then displaying it character by character every second.
 I was too lazy to do it manually, so I wrote an application that does it automatically and looks nice.
 
 ## How It Works
@@ -12,18 +12,19 @@ I was too lazy to do it manually, so I wrote an application that does it automat
 - **Base64 Validation:** Automatically verifies if a given string is a base64 string.
 - **Base64 Decoding:** Decodes a given base64 string to reveal a hidden URL.
 - **URL Validation:** Checks if a given string is a valid URL.
-- **Instructions Parsing:** Navigates to the provided link to parse instructions template, gets a link to the challenge template and builds a selector.
-- **DOM Parsing:** Navigates to the provided link to parse a complex DOM structure, retrieving elements based on a generated selector.
+- **Instructions Parsing:** Navigate to the provided link to parse the instructions template, get a link to the challenge template, and build a selector.
+- **DOM Parsing:** Navigate to the provided link to parse a complex DOM structure, retrieving elements based on a generated selector.
 - **Value Retrieval and Assembly:** Joins the retrieved values to form a second link.
-- **Dynamic Fetch:** Fetches a specific flag (a two-word phrase) from the second link. 
-- **Display a Flag:** Displays on the page a flag with fancy animation.
+- **Dynamic Fetch:** Fetches a specific flag (a two-word phrase) from the second link.
+- **Display a Flag:** Display a flag with fancy animation on the page.
 
-- **Publishing:** Publishes the template of the app with required functionality to the codesandox.
-- **Display link to the sandbox:** Builds and displays on the page a clickable link to the generated sandbox with ready-to-run application that meets the requirements of the task.
+- **Publishing:** Publishes the template of the app with the required functionality to the code sandbox.
+- **Display link to the sandbox:** Builds and displays on the page a clickable link to the generated sandbox with a ready-to-run application that meets the requirements of the task.
 
 ## Installation and Usage
 
 To use this application:
+
 1. Clone the repository to your local machine.
 2. Install the necessary dependencies using `npm install` or `yarn`.
 3. Start the application by running `npm start` or `yarn start`.
@@ -31,6 +32,7 @@ To use this application:
 5. The application will automatically process the input and display the results.
 
 ## Technologies Used
+
 - `React.js`
 - `codesandbox` tools and API
 - `dompurify` for sanitizing templates
