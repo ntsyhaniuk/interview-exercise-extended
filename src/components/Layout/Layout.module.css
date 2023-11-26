@@ -21,14 +21,26 @@
     position: static;
     max-width: 700px;
     gap: 16px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      max-width: 100%;
+
+      padding: 0 16px;
+    }
   }
 
   & h1 {
-    display: inline-flex;
     color: var(--heading-color);
     font-size: 60px;
     line-height: 64px;
     gap: 16px;
+
+    @media (max-width: 768px) {
+      text-align: center;
+      font-size: 40px;
+      line-height: 44px;
+    }
   }
 
   & p {
@@ -38,16 +50,31 @@
     margin-top: 16px;
     width: 80%;
     text-align: center;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      text-align: center;
+    }
   }
 
   & .md {
     font-size: 64px;
     line-height: 64px;
+
+    @media (max-width: 768px) {
+      font-size: 48px;
+      line-height: 52px;
+    }
   }
 
   & .lg {
     font-size: 128px;
     line-height: 128px;
+
+    @media (max-width: 768px) {
+      font-size: 96px;
+      line-height: 100px;
+    }
   }
 
   & .targetContainer {
@@ -62,8 +89,8 @@
       opacity: 0;
       overflow: hidden;
       text-transform: uppercase;
+      text-align: center;
       font-weight: bold;
-      text-wrap: wrap;
       color: #fff;
       animation: smoothAppear 1s ease-in forwards, glitch 2s steps(100) infinite;
 
