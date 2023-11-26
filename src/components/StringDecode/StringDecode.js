@@ -19,12 +19,15 @@ const errors = {
 const description = 'You can paste an encoded link to decode it and automatically solve an exercise that is needed to join us...';
 
 export const StringDecode = () => {
-  const { setGlobal } = useGlobal();
-  const smoothNavigate = useSmoothNavigate(useNavigate());
+  const { state, setGlobal } = useGlobal();
 
+  const smoothNavigate = useSmoothNavigate(useNavigate());
+  
   const [encodedString, setEncodedString] = useState('');
   const [encodingError, setEncodingError] = useState('');
   const [isFakeLoading, setIsFakeLoading] = useState(false);
+
+  const { isMobile } = state;
 
   const handleChange = debounce(({ target }) => {
     const { value } = target;
@@ -62,6 +65,12 @@ export const StringDecode = () => {
     };
   };
 
+  const ProcessButton = ({ className }) => (
+    <button className={className} disabled={!encodedString || !!encodingError} onClick={handleDecode}>
+      {isFakeLoading ? <Loader /> : 'Process'}
+    </button>
+  );
+
   return (
     <PageContainer>
       <PageContent>
@@ -70,10 +79,9 @@ export const StringDecode = () => {
         {!encodingError && <p>{description}</p>}
         <div className={styles.inputBox}>
           <input type="text" placeholder="here:" onChange={handleChange} />
-          <button disabled={!encodedString || !!encodingError} onClick={handleDecode}>
-            {isFakeLoading ? <Loader /> : 'Process'}
-          </button>
+          {!isMobile && <ProcessButton className={styles.desktopButton} />}
         </div>
+        {isMobile && <ProcessButton className={styles.mobileButton} />}
       </PageContent>
     </PageContainer>
   );
