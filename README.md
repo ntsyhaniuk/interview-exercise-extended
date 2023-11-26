@@ -1,7 +1,7 @@
 # Front-End Challenge Solver
 
 
-https://github.com/nazartsyhanyuk/interview-exercise-extended/assets/15053531/ceab4be7-4823-49ff-a04f-0c5e6bf98f85
+[](https://github.com/nazartsyhanyuk/interview-exercise-extended/assets/15053531/ceab4be7-4823-49ff-a04f-0c5e6bf98f85)
 
 
 ## You can test it here: [https://nazartsyhanyuk.github.io/interview-exercise-extended/](https://nazartsyhanyuk.github.io/interview-exercise-extended/)
