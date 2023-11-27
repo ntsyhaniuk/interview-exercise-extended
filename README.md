@@ -1,7 +1,10 @@
 # Front-End Challenge Solver
 
-
+### Desktop
 https://github.com/nazartsyhanyuk/interview-exercise-extended/assets/15053531/ceab4be7-4823-49ff-a04f-0c5e6bf98f85
+
+### Mobile
+https://github.com/nazartsyhanyuk/interview-exercise-extended/assets/15053531/91ecc48a-8605-4bce-a417-05f489e9aea6
 
 
 ## You can test it here: [https://nazartsyhanyuk.github.io/interview-exercise-extended/](https://nazartsyhanyuk.github.io/interview-exercise-extended/)
