@@ -1,4 +1,4 @@
-# Front-End Challenge Solver
+# Ramp Front-End Challenge Solver
 
 ### Desktop
 https://github.com/nazartsyhanyuk/interview-exercise-extended/assets/15053531/ceab4be7-4823-49ff-a04f-0c5e6bf98f85
