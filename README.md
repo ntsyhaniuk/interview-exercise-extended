@@ -7,7 +7,7 @@ https://github.com/nazartsyhanyuk/interview-exercise-extended/assets/15053531/ce
 https://github.com/nazartsyhanyuk/interview-exercise-extended/assets/15053531/91ecc48a-8605-4bce-a417-05f489e9aea6
 
 
-## You can test it here: [https://nazartsyhanyuk.github.io/interview-exercise-extended/](https://nazartsyhanyuk.github.io/interview-exercise-extended/)
+## You can test it here: [https://ntsyhaniuk.github.io/interview-exercise-extended/](https://ntsyhaniuk.github.io/interview-exercise-extended/)
 
 ## Overview
 
