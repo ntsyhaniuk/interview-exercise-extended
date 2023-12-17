@@ -2,7 +2,7 @@
   "name": "interview-exercise-extended",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://nazartsyhanyuk.github.io/interview-exercise-extended/",
+  "homepage": "https://ntsyhaniuk.github.io/interview-exercise-extended/",
   "dependencies": {
     "codesandbox": "^2.2.3",
     "dompurify": "^3.0.6",
