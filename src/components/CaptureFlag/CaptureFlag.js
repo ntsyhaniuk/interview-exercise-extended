@@ -54,7 +54,7 @@ export const CaptureFlag = () => {
     el.innerHTML = sanitize(challengeTemplate);
     document.body.appendChild(el);
 
-    let flagSelector = 'code[data-class] > div[data-tag] > span[data-id] > i.char'; // Default selector
+    let flagSelector = 'section[data-id^="92"] article[data-class$="45"] div[data-tag*="78"] > b.ref'; // Default selector
 
     const generatedSelector = buildCssSelector();
 
