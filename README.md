@@ -1,4 +1,4 @@
-# Ramp Front-End Challenge Solver
+# Front-End Challenge Solver
 
 ### Desktop
 https://github.com/nazartsyhanyuk/interview-exercise-extended/assets/15053531/ceab4be7-4823-49ff-a04f-0c5e6bf98f85
@@ -11,7 +11,7 @@ https://github.com/nazartsyhanyuk/interview-exercise-extended/assets/15053531/91
 
 ## Overview
 
-This React application was developed to simplify the passing of a technical exercise for a front-end position at some company. It automates the task of decoding a base64 string to reveal a link, parsing a complex DOM structure to retrieve specific elements, building a link, capturing a flag, and then displaying it character by character every second.
+This React application was developed to simplify the passing of a [technical exercise](https://leetcode.com/discuss/post/3278286/ramp-ctf-challange-by-anonymous_user-dpx3/) for a front-end position at some company. It automates the task of decoding a base64 string to reveal a link, parsing a complex DOM structure to retrieve specific elements, building a link, capturing a flag, and then displaying it character by character every second.
 I was too lazy to do it manually, so I wrote an application that does it automatically and looks nice.
 
 ## How It Works
