@@ -8,19 +8,20 @@ import { StringDecode, CaptureFlag, Publish, Loader, ErrorBoundary } from './com
 import styles from './App.module.css';
 
 const { home, parse, publish } = ROUTES;
+const basename = process.env.PUBLIC_URL || '';
 
 function App() {
   return (
     <div className={styles.appRoot}>
       <GlobalProvider>
         <ErrorBoundary>
-          <Suspense fallback={<Loader size='xl' />}>
-            <Router>
+          <Suspense fallback={<Loader size="xl" />}>
+            <Router basename={basename}>
               <Routes>
                 <Route path={home} element={<StringDecode />} />
                 <Route path={parse} element={<CaptureFlag />} />
                 <Route path={publish} element={<Publish />} />
-                <Route path='*' element={<StringDecode />} />
+                <Route path="*" element={<StringDecode />} />
               </Routes>
             </Router>
           </Suspense>

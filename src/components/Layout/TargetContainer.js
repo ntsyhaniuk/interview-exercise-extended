@@ -1,17 +1,15 @@
-import { useGlobal } from '../../context';
+import { MOBILE_BREAKPOINT } from '../../constants';
+import { useMediaQuery } from '../../hooks';
 
 import styles from './Layout.module.css';
 
 export const TargetContainer = ({ children }) => {
-  const { state } = useGlobal();
-
-  const { isMobile } = state;
-
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
   const size = isMobile ? 'md' : 'lg';
 
   return (
     <div className={`${styles.targetContainer} ${styles[size]}`}>
       {children}
     </div>
-  )
+  );
 };
