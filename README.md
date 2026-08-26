@@ -33,32 +33,7 @@ To use this application:
 
 ## Technologies Used
 
-- `React.js` (18) with [React Compiler](https://react.dev/learn/react-compiler/introduction) via CRACO
+- `React.js`
 - `codesandbox` tools and API
 - `dompurify` for sanitizing templates
 - `lodash/debounce` because I'm too lazy
-
-## React Compiler
-
-CRA (`react-scripts`) does not expose Babel config, so the compiler is wired through **CRACO**:
-
-- [`craco.config.js`](craco.config.js) — `babel-plugin-react-compiler` runs **first**, with `target: '18'`
-- `react-compiler-runtime` is a **runtime dependency** (required for React 17/18)
-- Scripts use `craco start|build|test` instead of `react-scripts`
-- `eslint-plugin-react-hooks@latest` is available for Rules of React guidance; CRA still resolves its own nested hooks plugin for in-build lint, so prefer React DevTools **Memo ✨** to confirm compilation
-
-### What the compiler replaces vs what we keep
-
-React Compiler auto-memoizes components/hooks. It does **not** replace the architectural performance fixes from PR #17, so those were **not** reverted:
-
-| Keep (not compiler territory) | Dropped as redundant after compiler |
-|-------------------------------|-------------------------------------|
-| Batched CaptureFlag `setGlobal` | Manual `useCallback` on handlers / `setGlobal` |
-| `DOMParser` instead of `document.body` mutate | Manual `useMemo` on provider `value` |
-| Local `isMobile` (not in global state) | Manual `useCallback` wrappers in navigate hooks |
-| CSS glitch / reduced-motion tuning | |
-| Router `basename`, single `GlobalProvider` | |
-| Fetch `response.ok` + CaptureFlag error UI | |
-| Explicit lodash `debounce` + `cancel()` | |
-
-Verify in React DevTools: optimized components show a **Memo ✨** badge.

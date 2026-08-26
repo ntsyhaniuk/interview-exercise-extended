@@ -34,8 +34,6 @@ export const Publish = () => {
     if (flagLink) {
       publish();
     }
-    // publish closes over flagLink/flagSelector; both are listed as triggers.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flagLink, flagSelector]);
 
   return (

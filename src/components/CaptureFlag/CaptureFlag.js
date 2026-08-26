@@ -125,8 +125,6 @@ export const CaptureFlag = () => {
 
   useEffect(() => {
     decodedUrlHandler(decodedUrl);
-    // decodedUrlHandler is compiler-memoized; decodedUrl is the intentional trigger.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [decodedUrl]);
 
   return (
