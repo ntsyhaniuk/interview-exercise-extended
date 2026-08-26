@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 import { sanitize } from 'dompurify';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,7 +6,7 @@ import { ROUTES } from '../../constants';
 import { useGlobal } from '../../context';
 import { fetchTemplate } from '../../api';
 import { useSmoothNavigate } from '../../hooks';
-import { Loader, PageContainer, TargetContainer } from '../';
+import { Loader, PageContainer, PageContent, TargetContainer } from '../';
 
 import styles from './CaptureFlag.module.css';
 
@@ -25,10 +25,13 @@ const buildCssSelector = (instructionsTemplate) => {
 
   while ((match = tagsRegex.exec(structureExampleString)) !== null) {
     const tag = match[1];
-    const attributes = match[2].split(/\s+/).map((attr) => {
-      const [attributeName] = attr.split('=');
-      return `[${attributeName}]`;
-    }).join('');
+    const attributes = match[2]
+      .split(/\s+/)
+      .map((attr) => {
+        const [attributeName] = attr.split('=');
+        return `[${attributeName}]`;
+      })
+      .join('');
     cssSelector += `${tag}${attributes} > `;
   }
 
@@ -61,42 +64,66 @@ export const CaptureFlag = () => {
   const navigate = useNavigate();
   const smoothNavigate = useSmoothNavigate(navigate);
   const isRunningRef = useRef(false);
+  const [error, setError] = useState(null);
 
   const { decodedUrl, capturedFlag } = state;
 
-  const decodedUrlHandler = useCallback(async (url) => {
-    if (!url || isRunningRef.current) return;
+  const decodedUrlHandler = useCallback(
+    async (url) => {
+      if (isRunningRef.current) return;
 
-    isRunningRef.current = true;
-
-    try {
-      const instructionsTemplate = await fetchTemplate(url);
-      const challengeLink = extractChallengeLink(instructionsTemplate);
-
-      if (!challengeLink) {
+      if (!url) {
+        setError('No decoded URL found. Go back and process a valid Base64 string first.');
         return;
       }
 
-      const challengeTemplate = await fetchTemplate(challengeLink);
-      const { flagSelector, flagLink } = parseChallengeTemplate(
-        challengeTemplate,
-        instructionsTemplate
-      );
+      isRunningRef.current = true;
+      setError(null);
 
-      const capturedFlagValue = await fetchTemplate(flagLink);
+      try {
+        const instructionsTemplate = await fetchTemplate(url);
+        const challengeLink = extractChallengeLink(instructionsTemplate);
 
-      setGlobal({
-        flagSelector,
-        flagLink,
-        capturedFlag: capturedFlagValue,
-      });
-    } finally {
-      isRunningRef.current = false;
-    }
-  }, [setGlobal]);
+        if (!challengeLink) {
+          throw new Error('Could not find a challenge link in the instructions template.');
+        }
+
+        const challengeTemplate = await fetchTemplate(challengeLink);
+        const { flagSelector, flagLink } = parseChallengeTemplate(
+          challengeTemplate,
+          instructionsTemplate
+        );
+
+        if (!flagLink) {
+          throw new Error('Could not assemble the flag URL from the challenge DOM.');
+        }
+
+        const capturedFlagValue = await fetchTemplate(flagLink);
+
+        setGlobal({
+          flagSelector,
+          flagLink,
+          capturedFlag: capturedFlagValue,
+        });
+      } catch (err) {
+        setError(err?.message || 'Failed to capture the flag.');
+      } finally {
+        isRunningRef.current = false;
+      }
+    },
+    [setGlobal]
+  );
 
   const handleDoMagic = useCallback(() => {
     smoothNavigate(ROUTES.publish);
+  }, [smoothNavigate]);
+
+  const handleRetry = useCallback(() => {
+    decodedUrlHandler(decodedUrl);
+  }, [decodedUrl, decodedUrlHandler]);
+
+  const handleBack = useCallback(() => {
+    smoothNavigate(ROUTES.home);
   }, [smoothNavigate]);
 
   useEffect(() => {
@@ -105,7 +132,21 @@ export const CaptureFlag = () => {
 
   return (
     <PageContainer>
-      {!capturedFlag && <Loader size="md" />}
+      {!capturedFlag && !error && <Loader size="md" />}
+      {error && (
+        <PageContent>
+          <h1>Something went wrong</h1>
+          <p>{error}</p>
+          <div className={styles.actions}>
+            <button type="button" onClick={handleRetry}>
+              Retry
+            </button>
+            <button type="button" onClick={handleBack}>
+              Back
+            </button>
+          </div>
+        </PageContent>
+      )}
       {capturedFlag && (
         <TargetContainer>
           <span>{capturedFlag}</span>

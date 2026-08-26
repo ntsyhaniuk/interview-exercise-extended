@@ -52,6 +52,27 @@
   }
 }
 
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+
+  & button {
+    min-width: 120px;
+    height: 48px;
+    border: none;
+    border-radius: 4px;
+    color: var(--button-text-color);
+    background-color: var(--accent-color);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in;
+
+    &:hover {
+      background-color: var(--accent-light-color);
+    }
+  }
+}
+
 @keyframes pulse {
   0% {
     opacity: 0;

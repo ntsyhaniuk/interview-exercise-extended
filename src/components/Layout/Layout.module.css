@@ -94,7 +94,7 @@
       color: #fff;
       transform: scaleX(0);
       transform-origin: left center;
-      animation: smoothAppear 1s ease-out forwards, glitch 1.2s steps(4) 2;
+      animation: smoothAppear 1s ease-in forwards, glitch 2s steps(8) infinite;
 
       &:hover {
         cursor: pointer;
@@ -105,7 +105,7 @@
 
 @keyframes smoothAppear {
   0% {
-    opacity: 0;
+    opacity: 0.5;
     transform: scaleX(0);
     color: var(--background-color);
   }
@@ -116,6 +116,7 @@
   }
 
   75% {
+    opacity: 1;
     color: var(--secondary-color);
   }
 
@@ -128,19 +129,59 @@
 
 @keyframes glitch {
   0%,
-  100% {
+  14% {
     text-shadow: 1px 0 0 red, -1px 0 0 blue;
   }
 
-  25% {
+  15%,
+  29% {
     text-shadow: -1px 0 0 red, 1px 0 0 lime;
   }
 
-  50% {
+  30%,
+  44% {
     text-shadow: 0.7px 0 0 blue, -0.7px 0 0 lime;
   }
 
-  75% {
+  45%,
+  49% {
+    text-shadow: 50px 0 0 blue, -50px 0 0 lime;
+  }
+
+  50% {
+    text-shadow: 0 0 0 blue, 0 0 0 lime;
+  }
+
+  51%,
+  64% {
+    text-shadow: 1px 0 0 red, -1px 0 0 blue;
+  }
+
+  65%,
+  69% {
+    text-shadow: 30px 0 0 red, -30px 0 0 lime;
+  }
+
+  70% {
+    text-shadow: 0 0 0 red, 0 0 0 lime;
+  }
+
+  71%,
+  84% {
+    text-shadow: -1px 0 0 red, 1px 0 0 blue;
+  }
+
+  85%,
+  89% {
+    text-shadow: 60px 0 0 lime, -60px 0 0 blue;
+  }
+
+  90% {
+    text-shadow: 0 0 0 lime, 0 0 0 blue;
+  }
+
+  91%,
+  100% {
     text-shadow: -1px 0 0 blue, 1px 0 0 lime;
   }
 }

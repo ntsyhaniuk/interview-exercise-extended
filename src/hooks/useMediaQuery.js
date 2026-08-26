@@ -1,17 +1,17 @@
-import { useSyncExternalStore } from 'react';
+import { useCallback, useSyncExternalStore } from 'react';
 
 const getServerSnapshot = () => false;
 
 export const useMediaQuery = (breakpoint) => {
   const query = `(max-width: ${breakpoint}px)`;
 
-  const subscribe = (onStoreChange) => {
+  const subscribe = useCallback((onStoreChange) => {
     const mediaQuery = window.matchMedia(query);
     mediaQuery.addEventListener('change', onStoreChange);
     return () => mediaQuery.removeEventListener('change', onStoreChange);
-  };
+  }, [query]);
 
-  const getSnapshot = () => window.matchMedia(query).matches;
+  const getSnapshot = useCallback(() => window.matchMedia(query).matches, [query]);
 
   return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 };
