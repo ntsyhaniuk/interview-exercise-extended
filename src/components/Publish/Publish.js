@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useGlobal } from '../../context';
 import { createSandbox } from '../../api';
@@ -15,7 +15,7 @@ export const Publish = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const publish = useCallback(async () => {
+  const publish = async () => {
     setIsLoading(true);
     setError(null);
 
@@ -28,13 +28,13 @@ export const Publish = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [flagLink, flagSelector]);
+  };
 
   useEffect(() => {
     if (flagLink) {
       publish();
     }
-  }, [flagLink, publish]);
+  }, [flagLink, flagSelector]);
 
   return (
     <PageContainer>

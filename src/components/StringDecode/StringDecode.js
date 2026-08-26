@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import debounce from 'lodash/debounce';
@@ -29,6 +29,7 @@ export const StringDecode = () => {
   const [encodingError, setEncodingError] = useState('');
   const [isFakeLoading, setIsFakeLoading] = useState(false);
 
+  // Keep explicit debounce identity + cancel; lodash timers are not a React Compiler concern.
   const handleChange = useMemo(
     () =>
       debounce(({ target }) => {
@@ -47,7 +48,7 @@ export const StringDecode = () => {
 
   useEffect(() => () => handleChange.cancel(), [handleChange]);
 
-  const handleDecode = useCallback(() => {
+  const handleDecode = () => {
     try {
       if (!isBase64(encodedString)) {
         throw new Error(errors.invalidString);
@@ -68,7 +69,7 @@ export const StringDecode = () => {
     } catch ({ message }) {
       setEncodingError(message);
     }
-  }, [encodedString, setGlobal, smoothNavigate]);
+  };
 
   const processButton = (
     <button
