@@ -16,9 +16,14 @@ export const useGlobalState = () => {
 
   const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
 
-  const setGlobal = (values) => {
-    setState(prev => ({ ...prev, ...values }));
-  };
+  const setGlobal = useCallback((values) => {
+    setState((prev) => ({ ...prev, ...values }));
+  }, []);
 
-  return [{ ...state, isMobile }, setGlobal];
+  const computedState = useMemo(
+    () => ({ ...state, isMobile }),
+    [state, isMobile]
+  );
+
+  return [computedState, setGlobal];
 };
