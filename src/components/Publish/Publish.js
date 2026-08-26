@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 import { useGlobal } from '../../context';
 import { createSandbox } from '../../api';
@@ -12,51 +12,43 @@ export const Publish = () => {
   const { flagLink, flagSelector } = state;
 
   const [sandboxId, setSandboxId] = useState(null);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const [error, setError] = useState(null);
 
-
-  const publish = async () => {
+  const publish = useCallback(async () => {
     setIsLoading(true);
+    setError(null);
 
     try {
       const templateString = appComponentTemplate({ flagLink, flagSelector });
-
-      const sandboxId = await createSandbox(templateString);
-
-      setSandboxId(sandboxId);
-    } catch (error) {
-      setError(error);
+      const id = await createSandbox(templateString);
+      setSandboxId(id);
+    } catch (err) {
+      setError(err);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [flagLink, flagSelector]);
 
   useEffect(() => {
     if (flagLink) {
       publish();
     }
-  }, [flagLink]);
+  }, [flagLink, publish]);
 
   return (
     <PageContainer>
       <PageContent>
-        {isLoading && (
-          <Loader size='md' />
-        )}
-        {error && (
-          <h1>{error.message}</h1>
-        )}
+        {isLoading && <Loader size="md" />}
+        {error && <h1>{error.message}</h1>}
         {sandboxId && (
           <TargetContainer>
-            <a href={`https://codesandbox.io/s/${sandboxId}`} target="_blank" rel="noreferrer">your sandbox</a>
+            <a href={`https://codesandbox.io/s/${sandboxId}`} target="_blank" rel="noreferrer">
+              your sandbox
+            </a>
           </TargetContainer>
         )}
       </PageContent>
     </PageContainer>
   );
-
-
 };

@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import debounce from 'lodash/debounce';
 
-import { ROUTES } from '../../constants';
+import { ROUTES, MOBILE_BREAKPOINT } from '../../constants';
 import { useGlobal } from '../../context';
-import { useSmoothNavigate } from '../../hooks';
+import { useSmoothNavigate, useMediaQuery } from '../../hooks';
 import { Loader, PageContainer, PageContent } from '../';
 import { executeInSequence, isBase64, isValidUrl } from '../../helpers';
 
@@ -19,30 +19,35 @@ const errors = {
 const description = 'You can paste an encoded link to decode it and automatically solve an exercise that is needed to join us...';
 
 export const StringDecode = () => {
-  const { state, setGlobal } = useGlobal();
+  const { setGlobal } = useGlobal();
 
-  const smoothNavigate = useSmoothNavigate(useNavigate());
-  
+  const navigate = useNavigate();
+  const smoothNavigate = useSmoothNavigate(navigate);
+  const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
+
   const [encodedString, setEncodedString] = useState('');
   const [encodingError, setEncodingError] = useState('');
   const [isFakeLoading, setIsFakeLoading] = useState(false);
 
-  const { isMobile } = state;
+  const handleChange = useMemo(
+    () =>
+      debounce(({ target }) => {
+        const { value } = target;
 
-  const handleChange = debounce(({ target }) => {
-    const { value } = target;
+        if (!isBase64(value)) {
+          setEncodingError(errors.invalidString);
+          return;
+        }
 
-    if (!isBase64(value)) {
-      setEncodingError(errors.invalidString);
-      return;
-    } else {
-      setEncodingError('');
-      setEncodedString(value.trim());
-    }
-  }, 500);
+        setEncodingError('');
+        setEncodedString(value.trim());
+      }, 500),
+    []
+  );
 
-  const handleDecode = () => {
+  useEffect(() => () => handleChange.cancel(), [handleChange]);
 
+  const handleDecode = useCallback(() => {
     try {
       if (!isBase64(encodedString)) {
         throw new Error(errors.invalidString);
@@ -62,11 +67,15 @@ export const StringDecode = () => {
       ], 500);
     } catch ({ message }) {
       setEncodingError(message);
-    };
-  };
+    }
+  }, [encodedString, setGlobal, smoothNavigate]);
 
-  const ProcessButton = ({ className }) => (
-    <button className={className} disabled={!encodedString || !!encodingError} onClick={handleDecode}>
+  const processButton = (
+    <button
+      className={isMobile ? styles.mobileButton : styles.desktopButton}
+      disabled={!encodedString || !!encodingError}
+      onClick={handleDecode}
+    >
       {isFakeLoading ? <Loader /> : 'Process'}
     </button>
   );
@@ -79,9 +88,9 @@ export const StringDecode = () => {
         {!encodingError && <p>{description}</p>}
         <div className={styles.inputBox}>
           <input type="text" placeholder="here:" onChange={handleChange} />
-          {!isMobile && <ProcessButton className={styles.desktopButton} />}
+          {!isMobile && processButton}
         </div>
-        {isMobile && <ProcessButton className={styles.mobileButton} />}
+        {isMobile && processButton}
       </PageContent>
     </PageContainer>
   );

@@ -1,29 +1,18 @@
-import { useState } from 'react';
-
-import { useMediaQuery } from '../hooks';
-import { MOBILE_BREAKPOINT } from '../constants';
+import { useState, useCallback } from 'react';
 
 const defaultState = {
-  isMobile: false,
   flagLink: '',
   decodedUrl: '',
   capturedFlag: '',
-  instructionsTemplate: '',
+  flagSelector: '',
 };
 
 export const useGlobalState = () => {
   const [state, setState] = useState(defaultState);
 
-  const isMobile = useMediaQuery(MOBILE_BREAKPOINT);
-
   const setGlobal = useCallback((values) => {
     setState((prev) => ({ ...prev, ...values }));
   }, []);
 
-  const computedState = useMemo(
-    () => ({ ...state, isMobile }),
-    [state, isMobile]
-  );
-
-  return [computedState, setGlobal];
+  return [state, setGlobal];
 };
