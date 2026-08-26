@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 
 const defaultState = {
   flagLink: '',
@@ -10,9 +10,10 @@ const defaultState = {
 export const useGlobalState = () => {
   const [state, setState] = useState(defaultState);
 
-  const setGlobal = useCallback((values) => {
+  // React Compiler stabilizes this updater; keep architectural batching in callers.
+  const setGlobal = (values) => {
     setState((prev) => ({ ...prev, ...values }));
-  }, []);
+  };
 
   return [state, setGlobal];
 };

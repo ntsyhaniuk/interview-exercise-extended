@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useGlobal } from '../../context';
 import { createSandbox } from '../../api';
@@ -15,7 +15,7 @@ export const Publish = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const publish = useCallback(async () => {
+  const publish = async () => {
     setIsLoading(true);
     setError(null);
 
@@ -28,13 +28,15 @@ export const Publish = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [flagLink, flagSelector]);
+  };
 
   useEffect(() => {
     if (flagLink) {
       publish();
     }
-  }, [flagLink, publish]);
+    // publish closes over flagLink/flagSelector; both are listed as triggers.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flagLink, flagSelector]);
 
   return (
     <PageContainer>

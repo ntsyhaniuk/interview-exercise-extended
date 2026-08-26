@@ -1,15 +1,12 @@
-import { useMemo } from 'react';
-
 import { context } from './global';
 import { useGlobalState } from './useGlobalState';
 
 export const GlobalProvider = ({ children }) => {
   const [state, setGlobal] = useGlobalState();
 
-  const memoizedValue = useMemo(() => ({ state, setGlobal }), [state, setGlobal]);
-
+  // React Compiler memoizes the provider value; keep the object inline.
   return (
-    <context.Provider value={memoizedValue}>
+    <context.Provider value={{ state, setGlobal }}>
       {children}
     </context.Provider>
   );

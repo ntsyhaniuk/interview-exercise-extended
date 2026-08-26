@@ -1,11 +1,9 @@
-import { useCallback } from 'react';
-
 import { useTransitionApi } from './useTransitionApi';
 
 export const useSmoothNavigate = (navigate) => {
   const smoothNavigate = useTransitionApi(navigate);
 
-  return useCallback((...args) => {
+  return (...args) => {
     smoothNavigate(...args);
-  }, [smoothNavigate]);
+  };
 };

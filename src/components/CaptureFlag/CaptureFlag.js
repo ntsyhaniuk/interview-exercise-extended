@@ -1,4 +1,4 @@
-import { useEffect, useCallback, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { sanitize } from 'dompurify';
 import { useNavigate } from 'react-router-dom';
 
@@ -68,67 +68,66 @@ export const CaptureFlag = () => {
 
   const { decodedUrl, capturedFlag } = state;
 
-  const decodedUrlHandler = useCallback(
-    async (url) => {
-      if (isRunningRef.current) return;
+  const decodedUrlHandler = async (url) => {
+    if (isRunningRef.current) return;
 
-      if (!url) {
-        setError('No decoded URL found. Go back and process a valid Base64 string first.');
-        return;
+    if (!url) {
+      setError('No decoded URL found. Go back and process a valid Base64 string first.');
+      return;
+    }
+
+    isRunningRef.current = true;
+    setError(null);
+
+    try {
+      const instructionsTemplate = await fetchTemplate(url);
+      const challengeLink = extractChallengeLink(instructionsTemplate);
+
+      if (!challengeLink) {
+        throw new Error('Could not find a challenge link in the instructions template.');
       }
 
-      isRunningRef.current = true;
-      setError(null);
+      const challengeTemplate = await fetchTemplate(challengeLink);
+      const { flagSelector, flagLink } = parseChallengeTemplate(
+        challengeTemplate,
+        instructionsTemplate
+      );
 
-      try {
-        const instructionsTemplate = await fetchTemplate(url);
-        const challengeLink = extractChallengeLink(instructionsTemplate);
-
-        if (!challengeLink) {
-          throw new Error('Could not find a challenge link in the instructions template.');
-        }
-
-        const challengeTemplate = await fetchTemplate(challengeLink);
-        const { flagSelector, flagLink } = parseChallengeTemplate(
-          challengeTemplate,
-          instructionsTemplate
-        );
-
-        if (!flagLink) {
-          throw new Error('Could not assemble the flag URL from the challenge DOM.');
-        }
-
-        const capturedFlagValue = await fetchTemplate(flagLink);
-
-        setGlobal({
-          flagSelector,
-          flagLink,
-          capturedFlag: capturedFlagValue,
-        });
-      } catch (err) {
-        setError(err?.message || 'Failed to capture the flag.');
-      } finally {
-        isRunningRef.current = false;
+      if (!flagLink) {
+        throw new Error('Could not assemble the flag URL from the challenge DOM.');
       }
-    },
-    [setGlobal]
-  );
 
-  const handleDoMagic = useCallback(() => {
+      const capturedFlagValue = await fetchTemplate(flagLink);
+
+      setGlobal({
+        flagSelector,
+        flagLink,
+        capturedFlag: capturedFlagValue,
+      });
+    } catch (err) {
+      setError(err?.message || 'Failed to capture the flag.');
+    } finally {
+      isRunningRef.current = false;
+    }
+  };
+
+  const handleDoMagic = () => {
     smoothNavigate(ROUTES.publish);
-  }, [smoothNavigate]);
+  };
 
-  const handleRetry = useCallback(() => {
+  const handleRetry = () => {
     decodedUrlHandler(decodedUrl);
-  }, [decodedUrl, decodedUrlHandler]);
+  };
 
-  const handleBack = useCallback(() => {
+  const handleBack = () => {
     smoothNavigate(ROUTES.home);
-  }, [smoothNavigate]);
+  };
 
   useEffect(() => {
     decodedUrlHandler(decodedUrl);
-  }, [decodedUrl, decodedUrlHandler]);
+    // decodedUrlHandler is compiler-memoized; decodedUrl is the intentional trigger.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [decodedUrl]);
 
   return (
     <PageContainer>
